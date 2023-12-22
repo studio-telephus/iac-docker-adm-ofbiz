@@ -1,6 +1,6 @@
-module "container_ofbiz" {
-  source    = "github.com/studio-telephus/tel-iac-modules-lxd.git//instance?ref=develop"
-  name      = "container-ofbiz"
+module "container_adm_ofbiz" {
+  source    = "github.com/studio-telephus/terraform-lxd-instance.git?ref=1.0.1"
+  name      = "container-adm-ofbiz"
   image     = "images:debian/bookworm"
   profiles  = ["limits", "fs-dir", "nw-adm"]
   autostart = false
@@ -16,13 +16,11 @@ module "container_ofbiz" {
     "${path.cwd}/filesystem-shared-ca-certificates",
     "${path.cwd}/filesystem",
   ]
-  exec = {
-    enabled    = true
-    entrypoint = "/mnt/install.sh"
-    environment = {
-      RANDOM_STRING               = "391db6f3-9db2-4111-8eb9-683c3bbda207"
-      SERVER_KEYSTORE_STOREPASS   = var.server_keystore_storepass
-      SERVER_TRUSTSTORE_STOREPASS = var.server_truststore_storepass
-    }
+  exec_enabled = true
+  exec         = "/mnt/install.sh"
+  environment = {
+    RANDOM_STRING               = "391db6f3-9db2-4111-8eb9-683c3bbda207"
+    SERVER_KEYSTORE_STOREPASS   = var.server_keystore_storepass
+    SERVER_TRUSTSTORE_STOREPASS = var.server_truststore_storepass
   }
 }
